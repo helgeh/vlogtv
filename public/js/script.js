@@ -49,12 +49,12 @@ angular.module('CaseyTV', [])
   })
 
   .component('videoList', {
-  	templateUrl: '/templates/video-list.html',
+    templateUrl: '/templates/video-list.html',
     controller: function VideoListController ($rootScope, List, Vlog) {
-    	var ctrl = this;
+      var ctrl = this;
       ctrl.videos = [];
       List.getAll().then(function (data) {
-      	ctrl.videos = data.items;
+        ctrl.videos = data.items;
         if (data.items && data.items.length > 0) ctrl.start(data.items[0]);
       });
       ctrl.start = function (video) {
@@ -67,32 +67,32 @@ angular.module('CaseyTV', [])
   })
 
   .factory('List', function ($rootScope, $http, Settings) {
-  	var curIndex, total, promise;
-  	var API = {
-  		getAll: function () {
-  			return promise;
-  		},
-  		loadNext: function () {
-  			return promise.then(function (data) {
+    var curIndex, total, promise;
+    var API = {
+      getAll: function () {
+        return promise;
+      },
+      loadNext: function () {
+        return promise.then(function (data) {
           if (curIndex + 1 < data.items.length)
-  				  return data.items[++curIndex].id.videoId;
+            return data.items[++curIndex].id.videoId;
           return Promise.reject(new Error('No more videos'));
-  			});
-  		},
+        });
+      },
       hasMore: function () {
         return curIndex + 1 < total;
       },
       isFirst: function () {
         return curIndex === 0;
       },
-  		setCurrent: function (video) {
-  			return promise.then(function (data) {
-  				curIndex = data.items.indexOf(video);
-  			});
-  		},
-  		// reverse: function () {
-  		// 	// body...
-  		// },
+      setCurrent: function (video) {
+        return promise.then(function (data) {
+          curIndex = data.items.indexOf(video);
+        });
+      },
+      // reverse: function () {
+      //  // body...
+      // },
       reload: function () {
         var date = Settings.get('curDate') || '2015-03-26';
         var url = '/vlog/CaseyNeistat?date=' + date;
@@ -112,36 +112,36 @@ angular.module('CaseyTV', [])
         });
         return promise;
       }
-  	}
+    }
     API.reload();
     return API;
   })
 
   .factory('Player', function ($rootScope, Settings) {
-  	var player, loadWhenReady, playWhenReady, isPlaying;
+    var player, loadWhenReady, playWhenReady, isPlaying;
 
-  	var tag = document.createElement('script');
+    var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     
-		window.onYouTubeIframeAPIReady = function() {
-		  player = new YT.Player('player', {
-		    height: '390',
-		    width: '640',
-		    events: {
-		      'onReady': onPlayerReady,
-		      'onStateChange': onPlayerStateChange
-		    }
-		  });
-		}
-		function onPlayerReady(event) {
+    window.onYouTubeIframeAPIReady = function() {
+      player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+    function onPlayerReady(event) {
       if (loadWhenReady) {
         API.load(loadWhenReady);
         loadWhenReady = null;
       }
     }
-		function onPlayerStateChange(event) {
+    function onPlayerStateChange(event) {
       isPlaying = event.data == YT.PlayerState.PLAYING;
       if (event.data === 0) {
         $rootScope.$emit('player:stopped');
@@ -152,12 +152,12 @@ angular.module('CaseyTV', [])
       }
     }
     var API = {
-  		load: function (id) {
+      load: function (id) {
         if (!player.cueVideoById) {
           loadWhenReady = id;
         }
         else player.cueVideoById(id);
-  		},
+      },
       play: function () {
         var state = player.getPlayerState();
         if ([YT.PlayerState.CUED, YT.PlayerState.PAUSED].indexOf(state) < 0)
@@ -168,52 +168,52 @@ angular.module('CaseyTV', [])
       isPlaying: function () {
         return isPlaying;
       }
-  	};
-  	return API;
+    };
+    return API;
   })
 
   .component('controls', {
-  	templateUrl: '/templates/controls.html',
-  	controller: function ControlsController ($scope, Vlog, Settings) {
-  		var ctrl = this;
-  		ctrl.autoPlay = Settings.get('autoPlay') > 0;
-  		ctrl.toggleAutoPlay = function () {
-  			Settings.set('autoPlay', ctrl.autoPlay ? 1 : 0);
-  		};
+    templateUrl: '/templates/controls.html',
+    controller: function ControlsController ($scope, Vlog, Settings) {
+      var ctrl = this;
+      ctrl.autoPlay = Settings.get('autoPlay') > 0;
+      ctrl.toggleAutoPlay = function () {
+        Settings.set('autoPlay', ctrl.autoPlay ? 1 : 0);
+      };
       ctrl.prev = function () {
         Vlog.prev();
       };
       ctrl.next = function () {
         Vlog.next();
       };
-  	}
+    }
   })
 
   .factory('Settings', function (Store) {
-  	var settings = Store.get('settings');
-		if (!settings)
-			settings = {};
-  	return {
-  		set: function (prop, val) {
-  			settings[prop] = val;
-  			Store.set('settings', settings);
-  		},
-  		get: function (prop) {
-  			return settings[prop];
-  		}
-  	}
+    var settings = Store.get('settings');
+    if (!settings)
+      settings = {};
+    return {
+      set: function (prop, val) {
+        settings[prop] = val;
+        Store.set('settings', settings);
+      },
+      get: function (prop) {
+        return settings[prop];
+      }
+    }
   })
 
   .factory('Store', function () {
-  	var storage = window.localStorage;
-  	return {
-  		get: function (prop) {
-  			return JSON.parse(storage.getItem(prop));
-  		},
-  		set: function (prop, val) {
-  			storage.setItem(prop, JSON.stringify(val));
-  		}
-  	}
+    var storage = window.localStorage;
+    return {
+      get: function (prop) {
+        return JSON.parse(storage.getItem(prop));
+      },
+      set: function (prop, val) {
+        storage.setItem(prop, JSON.stringify(val));
+      }
+    }
   })
 
   .factory('Tools', function () {
