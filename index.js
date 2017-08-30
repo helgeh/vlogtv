@@ -14,6 +14,7 @@ app.use(helmet({
 }));
 
 app.use(express.static('public'));
+app.use(express.static('node_modules'));
 
 app.get('/vlog/:channel', (req, res) => {
   let channel = req.params.channel || 'CaseyNeistat';

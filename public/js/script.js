@@ -20,8 +20,7 @@ angular.module('CaseyTV', [])
       },
       next: function () {
         if (!List.hasMore()) {
-          var cur = Tools.bumpDate(Settings.get('curDate'));
-          Settings.set('curDate', cur);
+          Tools.bumpCurrentDate();
           List.reload().then(API.load);
         }
         else {
@@ -30,8 +29,7 @@ angular.module('CaseyTV', [])
       },
       prev: function () {
         if (List.isFirst()) {
-          var cur = Tools.bumpDate(Settings.get('curDate'), -1);
-          Settings.set('curDate', cur);
+          Tools.bumpCurrentDate(-1);
           List.reload().then(API.load);
         }
         else {
@@ -94,7 +92,7 @@ angular.module('CaseyTV', [])
       //  // body...
       // },
       reload: function () {
-        var date = Settings.get('curDate') || '2015-03-26';
+        var date = Settings.get('curDate') || '2015-03-26T00:00:00.000Z';
         var url = '/vlog/CaseyNeistat?date=' + date;
         promise = $http.get(url).then(function (res) {
           res.data.items = res.data.items
@@ -216,8 +214,17 @@ angular.module('CaseyTV', [])
     }
   })
 
-  .factory('Tools', function () {
+  .factory('Tools', function (Settings) {
     return {
+      bumpCurrentDate: function (inc) {
+        if (!inc) inc = 1;
+        var currentDate = moment(Settings.get('curDate'));
+        currentDate.utcOffset(0);
+        currentDate.add(inc, 'day');
+        var isoStr = currentDate.toISOString();
+        Settings.set('curDate', isoStr);
+        return isoStr;
+      },
       bumpDate: function (isoStr, inc) {
         if (!inc) inc = 1;
         var date = new Date(isoStr);
