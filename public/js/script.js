@@ -5,7 +5,7 @@ angular.module('CaseyTV', [])
   .factory('Vlog', function ($rootScope, Settings, List, Player, Tools) {
     var API = {
       load: function (param) {
-        if (param instanceof String) {
+        if (typeof param === 'string') {
           Player.load(param);
         }
         else if (param.items && param.items.length > 0) {
@@ -97,8 +97,15 @@ angular.module('CaseyTV', [])
         var date = Settings.get('curDate') || '2015-03-26';
         var url = '/vlog/CaseyNeistat?date=' + date;
         promise = $http.get(url).then(function (res) {
+          res.data.items = res.data.items
+            .filter(function(item) {
+              return item.id.kind === 'youtube#video';
+            })
+            .sort(function (a, b) {
+              return a.snippet.publishedAt > b.snippet.publishedAt;
+            });
           curIndex = 0;
-          total = res.data.length;
+          total = res.data.items.length;
           Settings.set('curDate', date);
           $rootScope.$emit('list:loaded', res.data);
           return res.data;
