@@ -1,12 +1,17 @@
 'use strict';
 
 const express = require('express');
+const helmet = require('helmet');
 const http = require('http');
 const Vlog = require('./lib/vlog');
 
 
 
 const app = express();
+
+app.use(helmet({
+	hsts: false
+}));
 
 app.use(express.static('public'));
 
