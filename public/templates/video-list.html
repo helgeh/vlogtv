@@ -1,0 +1,18 @@
+      <ul>
+        <li ng-repeat="video in $ctrl.videos">
+          <img
+            src="{{ video.snippet.thumbnails.default.url }}"
+            width="{{ video.snippet.thumbnails.default.width }}"
+            height="{{ video.snippet.thumbnails.default.height }}"
+            alt="thumbnail" />
+          <a href="#" ng-click="$ctrl.start(video)">
+            <span>
+              {{ video.snippet.title }}
+            </span>
+          </a>
+          <p>
+            {{ video.snippet.description }}
+          </p>
+          <hr>
+        </li>
+      </ul>
