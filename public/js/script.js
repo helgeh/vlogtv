@@ -18,6 +18,13 @@ angular.module('CaseyTV', [])
           List.setCurrent(param);
         }
       },
+      setDate: function (date) {
+        var m = moment(date);
+        if (m.isValid()) {
+          Settings.set('curDate', m.toISOString());
+          List.reload().then(API.load);
+        }
+      },
       next: function () {
         if (!List.hasMore()) {
           Tools.bumpCurrentDate();
@@ -26,6 +33,7 @@ angular.module('CaseyTV', [])
         else {
           List.loadNext().then(API.load);
         }
+        $rootScope.$broadcast('step', 'next');
       },
       prev: function () {
         if (List.isFirst()) {
@@ -35,6 +43,7 @@ angular.module('CaseyTV', [])
         else {
           List.loadPrev().then(API.load);
         }
+        $rootScope.$broadcast('step', 'prev');
       }
     };
     $rootScope.$on('player:stopped', function () {
@@ -48,9 +57,13 @@ angular.module('CaseyTV', [])
 
   .component('videoList', {
     templateUrl: '/templates/video-list.html',
-    controller: function VideoListController ($rootScope, List, Vlog) {
+    controller: function VideoListController ($rootScope, List, Vlog, Settings) {
       var ctrl = this;
       ctrl.videos = [];
+      ctrl.date = moment(Settings.get('curDate')).format('Do [of] MMMM YYYY [(]ddd[)]');
+      $rootScope.$on('step', function (event, data) {
+        ctrl.date = moment(Settings.get('curDate')).format('Do [of] MMMM YYYY [(]ddd[)]');
+      });
       List.getAll().then(function (data) {
         ctrl.videos = data.items;
         if (data.items && data.items.length > 0) ctrl.start(data.items[0]);
@@ -178,6 +191,14 @@ angular.module('CaseyTV', [])
       ctrl.toggleAutoPlay = function () {
         Settings.set('autoPlay', ctrl.autoPlay ? 1 : 0);
       };
+      ctrl.date = new Date(Settings.get('curDate'));
+      ctrl.dateChanged = function () {
+        if (ctrl.date)
+          Vlog.setDate(ctrl.date.toISOString());
+      };
+      $scope.$on('step', function (event, data) {
+        ctrl.date = new Date(Settings.get('curDate'));
+      });
       ctrl.prev = function () {
         Vlog.prev();
       };

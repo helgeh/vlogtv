@@ -1,7 +1,12 @@
 <div>
+
 	<label>
 		<input type="checkbox" ng-model="$ctrl.autoPlay" ng-change="$ctrl.toggleAutoPlay()">
 		AutoPlay
+	</label>
+
+	<label>
+		<input type="date" ng-model="$ctrl.date" ng-change="$ctrl.dateChanged()">
 	</label>
 
 	<button ng-click="$ctrl.prev()"><</button>
