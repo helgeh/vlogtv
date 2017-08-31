@@ -1,6 +1,10 @@
 'use strict';
 
 angular.module('CaseyTV', [])
+  
+  .run(function (Settings) {
+    Settings.set('curDate', Settings.get('curDate') || '2015-03-26T00:00:00.0000Z');
+  })
 
   .factory('Vlog', function ($rootScope, Settings, List, Player, Tools) {
     var API = {
@@ -19,7 +23,7 @@ angular.module('CaseyTV', [])
         }
       },
       setDate: function (date) {
-        var m = moment(date);
+        var m = moment.utc(date);
         if (m.isValid()) {
           Settings.set('curDate', m.toISOString());
           List.reload().then(API.load);
@@ -59,10 +63,14 @@ angular.module('CaseyTV', [])
     templateUrl: '/templates/video-list.html',
     controller: function VideoListController ($rootScope, List, Vlog, Settings) {
       var ctrl = this;
+      var updateDate = function() {
+        var m = moment.utc(Settings.get('curDate'));
+        ctrl.date = m.format('Do [of] MMMM YYYY [(]ddd[)]');
+      }
       ctrl.videos = [];
-      ctrl.date = moment(Settings.get('curDate')).format('Do [of] MMMM YYYY [(]ddd[)]');
+      updateDate();
       $rootScope.$on('step', function (event, data) {
-        ctrl.date = moment(Settings.get('curDate')).format('Do [of] MMMM YYYY [(]ddd[)]');
+        updateDate();
       });
       List.getAll().then(function (data) {
         ctrl.videos = data.items;
@@ -73,6 +81,7 @@ angular.module('CaseyTV', [])
       };
       $rootScope.$on('list:loaded', function (event, data) {
         ctrl.videos = data.items;
+        updateDate();
       });
     }
   })
@@ -105,7 +114,7 @@ angular.module('CaseyTV', [])
       //  // body...
       // },
       reload: function () {
-        var date = Settings.get('curDate') || '2015-03-26T00:00:00.000Z';
+        var date = Settings.get('curDate');
         var url = '/vlog/CaseyNeistat?date=' + date;
         promise = $http.get(url).then(function (res) {
           res.data.items = res.data.items
@@ -191,10 +200,12 @@ angular.module('CaseyTV', [])
       ctrl.toggleAutoPlay = function () {
         Settings.set('autoPlay', ctrl.autoPlay ? 1 : 0);
       };
-      ctrl.date = new Date(Settings.get('curDate'));
+      ctrl.date = moment(Settings.get('curDate')).toDate();
       ctrl.dateChanged = function () {
-        if (ctrl.date)
-          Vlog.setDate(ctrl.date.toISOString());
+        if (ctrl.date) {
+          var m = moment.utc(ctrl.date.toISOString());
+          Vlog.setDate(m.toISOString());
+        }
       };
       $scope.$on('step', function (event, data) {
         ctrl.date = new Date(Settings.get('curDate'));
@@ -239,7 +250,7 @@ angular.module('CaseyTV', [])
     return {
       bumpCurrentDate: function (inc) {
         if (!inc) inc = 1;
-        var currentDate = moment(Settings.get('curDate'));
+        var currentDate = moment.utc(Settings.get('curDate'));
         currentDate.utcOffset(0);
         currentDate.add(inc, 'day');
         var isoStr = currentDate.toISOString();

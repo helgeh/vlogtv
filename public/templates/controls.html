@@ -6,7 +6,7 @@
 	</label>
 
 	<label>
-		<input type="date" ng-model="$ctrl.date" ng-change="$ctrl.dateChanged()">
+		<input type="date" ng-model="$ctrl.date" ng-change="$ctrl.dateChanged()" ng-model-options="{timezone: 'UTC'}">
 	</label>
 
 	<button ng-click="$ctrl.prev()"><</button>
