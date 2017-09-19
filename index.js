@@ -22,7 +22,7 @@ app.get('/vlog/:channel', (req, res) => {
   let date = new Date(req.query.date || Date.now());
   let vlog = new Vlog(channel);
   date.setUTCHours(0, 0, 0, 0);
-  vlog.setDate(date);
+  vlog.setDate(date, req.query.span);
   vlog.reload().then(response => {
     res.json(response);
   }, err => {
