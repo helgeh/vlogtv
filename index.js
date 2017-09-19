@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
@@ -13,8 +14,8 @@ app.use(helmet({
   hsts: false
 }));
 
-app.use(express.static('public'));
-app.use(express.static('node_modules'));
+app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static('node_modules'));
 
 app.get('/vlog/:channel', (req, res) => {
   let channel = req.params.channel || 'CaseyNeistat';
