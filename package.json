@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.6",
+    "cors": "^2.8.4",
     "express": "^4.15.4",
     "helmet": "^3.8.1",
     "moment": "^2.18.1",

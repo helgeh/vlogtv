@@ -3,6 +3,7 @@
 const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const http = require('http');
 const Vlog = require('./lib/vlog');
 
@@ -13,6 +14,11 @@ const app = express();
 app.use(helmet({
   hsts: false
 }));
+
+
+app.use(cors({
+  origin: 'https://vlogtv-test.now.sh'
+}))
 
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static('node_modules'));
