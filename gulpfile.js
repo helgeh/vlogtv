@@ -27,7 +27,7 @@ var config = {
   },
   frontend: {
     files: ['public/index.html'],
-    dest: 'dist/'
+    dest: 'dist/public/'
   },
   templates: {
     files: ['public/templates/**/*.pug'],
@@ -176,7 +176,7 @@ gulp.task('nodemon', ['styles', 'js'], function (done) {
 
 
 // use default task to launch Browsersync and watch JS files
-gulp.task('serve', ['nodemon'], function () {
+gulp.task('serve', ['templates', 'backend', 'frontend', 'nodemon'], function () {
 
     // Serve files from the root of this project
     browserSync.init({

@@ -1,7 +1,9 @@
+'use strict';
+
 var angular = require('angular');
 var moment = require('moment');
 
-angular.module('CaseyTV')
+angular.module('VlogTV')
 .component('controls', {
   templateUrl: '/templates/controls.html',
   controller: function ControlsController ($scope, Vlog, Settings) {
