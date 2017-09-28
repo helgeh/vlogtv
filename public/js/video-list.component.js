@@ -1,12 +1,10 @@
 'use strict';
 
-var angular = require('angular');
 var moment = require('moment');
 
-angular.module('VlogTV')
-.component('videoList', {
-  templateUrl: '/templates/video-list.html',
-  controller: function VideoListController ($rootScope, List, Vlog, Settings) {
+module.exports = [
+  '$rootScope', 'List', 'Vlog', 'Settings', 
+  function VideoListController ($rootScope, List, Vlog, Settings) {
     var ctrl = this;
     var updateDate = function() {
       var m = moment.utc(Settings.get('curDate'));
@@ -29,4 +27,4 @@ angular.module('VlogTV')
       updateDate();
     });
   }
-});
+];

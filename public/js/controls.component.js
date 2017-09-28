@@ -1,13 +1,10 @@
 'use strict';
 
-var angular = require('angular');
 var moment = require('moment');
 
-angular.module('VlogTV')
-.component('controls', {
-  templateUrl: '/templates/controls.html',
-  controller: function ControlsController ($scope, Vlog, Settings) {
+module.exports = ['$scope', 'Vlog', 'Settings', function ControlsController ($scope, Vlog, Settings) {
     var ctrl = this;
+    ctrl.channelName = Settings.get('channelName');
     ctrl.autoPlay = Settings.get('autoPlay') > 0;
     ctrl.toggleAutoPlay = function () {
       Settings.set('autoPlay', ctrl.autoPlay ? 1 : 0);
@@ -29,4 +26,4 @@ angular.module('VlogTV')
       Vlog.next();
     };
   }
-});
+];

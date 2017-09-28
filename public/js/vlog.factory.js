@@ -1,10 +1,8 @@
 'use strict';
 
-var angular = require('angular');
 var moment = require('moment');
 
-angular.module('VlogTV')
-.factory('Vlog', function ($rootScope, Settings, List, Player, Tools) {
+module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function ($rootScope, Settings, List, Player, Tools) {
   var API = {
     load: function (param) {
       if (typeof param === 'string') {
@@ -55,4 +53,4 @@ angular.module('VlogTV')
     }
   });
   return API;
-});
+}];

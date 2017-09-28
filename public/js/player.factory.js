@@ -1,9 +1,6 @@
 'use strict';
 
-var angular = require('angular');
-
-angular.module('VlogTV')
-.factory('Player', function ($rootScope, Settings) {
+module.exports = ['$rootScope', 'Settings', function ($rootScope, Settings) {
   var player, loadWhenReady, playWhenReady, isPlaying;
 
   var tag = document.createElement('script');
@@ -56,4 +53,4 @@ angular.module('VlogTV')
     }
   };
   return API;
-});
+}];

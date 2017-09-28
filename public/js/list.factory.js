@@ -1,9 +1,6 @@
 'use strict';
 
-var angular = require('angular');
-
-angular.module('VlogTV')
-.factory('List', function ($rootScope, $http, Settings) {
+module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http, Settings) {
   var curIndex, total, promise;
   var API = {
     getAll: function () {
@@ -52,4 +49,4 @@ angular.module('VlogTV')
   }
   API.reload();
   return API;
-});
+}];

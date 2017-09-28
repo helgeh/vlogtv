@@ -1,8 +1,12 @@
 div
-  label
-    input(type='checkbox', ng-model='$ctrl.autoPlay', ng-change='$ctrl.toggleAutoPlay()')
-    |     AutoPlay
-  label
-    input(type='date', ng-model='$ctrl.date', ng-change='$ctrl.dateChanged()', ng-model-options="{timezone: 'UTC'}")
-  button(ng-click='$ctrl.prev()') <
-  button(ng-click='$ctrl.next()') >
+  fieldset
+    label
+      input(type='text', ng-model='$ctrl.channelName')
+  fieldset
+    label
+      input(type='checkbox', ng-model='$ctrl.autoPlay', ng-change='$ctrl.toggleAutoPlay()')
+      |     AutoPlay
+    label
+      input(type='date', ng-model='$ctrl.date', ng-change='$ctrl.dateChanged()', ng-model-options="{timezone: 'UTC'}")
+    button(ng-click='$ctrl.prev()') <
+    button(ng-click='$ctrl.next()') >
