@@ -24,12 +24,10 @@ module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http
         curIndex = data.items.indexOf(video);
       });
     },
-    // reverse: function () {
-    //  // body...
-    // },
     reload: function () {
+      var channel = Settings.get('channelName') || 'CaseyNeistat';
       var date = Settings.get('curDate');
-      var url = '/vlog/CaseyNeistat?date=' + date;
+      var url = '/vlog/' + channel + '?date=' + date;
       promise = $http.get(url).then(function (res) {
         res.data.items = res.data.items
           .filter(function(item) {

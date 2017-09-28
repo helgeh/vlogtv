@@ -4,6 +4,10 @@ var moment = require('moment');
 
 module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function ($rootScope, Settings, List, Player, Tools) {
   var API = {
+    setChannel: function (name) {
+      Settings.set('channelName', name);
+      List.reload().then(API.load);
+    },
     load: function (param) {
       if (typeof param === 'string') {
         Player.load(param);
