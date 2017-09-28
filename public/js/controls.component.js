@@ -2,7 +2,7 @@
 
 var moment = require('moment');
 
-module.exports = ['$scope', 'Vlog', 'Settings', function ControlsController ($scope, Vlog, Settings) {
+module.exports = ['$scope', '$rootScope', 'Vlog', 'Settings', function ControlsController ($scope, $rootScope, Vlog, Settings) {
     var ctrl = this;
     ctrl.channelName = Settings.get('channelName');
     ctrl.channel = function (name) {
@@ -29,5 +29,8 @@ module.exports = ['$scope', 'Vlog', 'Settings', function ControlsController ($sc
     ctrl.next = function () {
       Vlog.next();
     };
+    $rootScope.$on('list:loaded', function (event, data) {
+      ctrl.date = moment(Settings.get('curDate')).toDate();
+    });
   }
 ];
