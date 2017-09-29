@@ -43,13 +43,20 @@ module.exports = {
           return specials[prop]();
         return settings[prop];
       },
+      getChannelName: function () {
+        return settings['channelName'];
+      },
+      setChannelName: function (val) {
+        settings['channelName'] = val;
+        Store.set('settings', settings);
+      },
       getDate: function (channelName) {
         var vlogData = Store.get('vlogs', {});
         return (vlogData[channelName] || {}).currentDate;
       },
       setDate: function (date) {
         var vlogData = Store.get('vlogs', {});
-        var name = settings['channelName'];
+        var name = API.getChannelName();
         if (!vlogData[name])
           vlogData[name] = {};
         vlogData[name].currentDate = moment(date).toISOString();

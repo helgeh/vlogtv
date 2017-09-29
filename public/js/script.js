@@ -5,7 +5,10 @@ var angular = require('angular');
 angular.module('VlogTV', [])
   
   .run(function (Settings) {
-    Settings.set('curDate', Settings.get('curDate') || '2015-03-26T00:00:00.0000Z');
+    if (!Settings.get('vlogs')) { // first time setup
+      Settings.set('channelName', 'CaseyNeistat');
+      Settings.set('curDate', '2015-03-26T00:00:00.0000Z');
+    }
   })
 
   .factory('Vlog', require('./vlog.factory'))

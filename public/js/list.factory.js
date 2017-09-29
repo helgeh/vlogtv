@@ -25,7 +25,7 @@ module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http
       });
     },
     reload: function () {
-      var channel = Settings.get('channelName') || 'CaseyNeistat';
+      var channel = Settings.getChannelName();
       var date = Settings.get('curDate');
       var url = '/vlog/' + channel + '?date=' + date;
       promise = $http.get(url).then(function (res) {
