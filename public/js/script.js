@@ -16,6 +16,10 @@ angular.module('VlogTV', [])
     templateUrl: '/templates/controls.html',
     controller: require('./controls.component')
   })
+  .component('channelSelect', {
+    templateUrl: '/templates/channel-select.html',
+    controller: require('./channel-select.component')
+  })
   .component('videoList', {
     templateUrl: '/templates/video-list.html',
     controller: require('./video-list.component')

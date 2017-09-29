@@ -17,6 +17,18 @@ module.exports = {
         if (!date)
           date = moment().toISOString();
         return date;
+      },
+      channelList: function (val) {
+        if (val) {
+          // As long as these are gathered from the vlogs object's keys I don't see an 
+          // easy way or even a logical way to write this.
+          // If a new channel was added to the list then it will evenutally be added
+          // when it gets a currentDate.
+          throw "Not implemented!"
+        }
+        else {
+          return Object.keys(Store.get('vlogs', {}));
+        }
       }
     };
     var API = {

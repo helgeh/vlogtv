@@ -1,8 +1,6 @@
 div
   fieldset
-    label
-      input(type='text', ng-model='$ctrl.channelName')
-      button(ng-click="$ctrl.channel($ctrl.channelName)") Set
+    channel-select
   fieldset
     label
       input(type='checkbox', ng-model='$ctrl.autoPlay', ng-change='$ctrl.toggleAutoPlay()')

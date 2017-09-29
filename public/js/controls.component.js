@@ -4,11 +4,6 @@ var moment = require('moment');
 
 module.exports = ['$scope', '$rootScope', 'Vlog', 'Settings', function ControlsController ($scope, $rootScope, Vlog, Settings) {
     var ctrl = this;
-    ctrl.channelName = Settings.get('channelName');
-    ctrl.channel = function (name) {
-      ctrl.channelName = name;
-      Vlog.setChannel(name);
-    };
     ctrl.autoPlay = Settings.get('autoPlay') > 0;
     ctrl.toggleAutoPlay = function () {
       Settings.set('autoPlay', ctrl.autoPlay ? 1 : 0);
