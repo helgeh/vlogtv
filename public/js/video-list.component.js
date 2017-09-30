@@ -6,6 +6,8 @@ module.exports = [
 
     var ctrl = this;
 
+    // TODO: show different titles depending on the type of time span this vlog is using
+
     ctrl.start = function (video) {
       Vlog.load(video);
     };

@@ -24,7 +24,6 @@ module.exports = {
       bumpCurrentDate: function (inc) {
         if (!inc) inc = 1;
         var data = Settings.getVlogData();
-        console.log(data);
         var currentDate = moment.utc(data.currentDate);
         currentDate.utcOffset(0);
         currentDate.add(inc, data.span);
