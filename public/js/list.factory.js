@@ -15,6 +15,13 @@ module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http
         return Promise.reject(new Error('No more videos'));
       });
     },
+    loadPrev: function () {
+      return promise.then(function (data) {
+        if (curIndex - 1 >= 0)
+          return data.items[--curIndex].id.videoId;
+        return Promise.reject(new Error('No more videos'));
+      });
+    },
     hasMore: function () {
       return curIndex + 1 < total;
     },

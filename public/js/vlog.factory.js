@@ -21,7 +21,6 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
     next: function () {
       if (!List.hasMore()) {
         Tools.bumpCurrentDate(1);
-        // List.reload().then(API.load);
       }
       else {
         List.loadNext().then(API.load);
@@ -31,7 +30,6 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
     prev: function () {
       if (List.isFirst()) {
         Tools.bumpCurrentDate(-1);
-        // List.reload().then(API.load);
       }
       else {
         List.loadPrev().then(API.load);

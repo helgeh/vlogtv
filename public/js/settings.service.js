@@ -16,7 +16,7 @@ module.exports = ['$rootScope', 'Store', function PropsService($rootScope, Store
     playerOptions.channelName = name;
     vlogData[playerOptions.channelName] = {
       currentDate: date,
-      span: 'date'
+      span: 'day'
     }
     Store.set('settings', playerOptions);
     Store.set('vlogs', vlogData);
@@ -28,7 +28,7 @@ module.exports = ['$rootScope', 'Store', function PropsService($rootScope, Store
 
   function getVlogData() {
     if (!vlogData[playerOptions.channelName]) {
-      vlogData[playerOptions.channelName] = {currentDate: moment().utc().startOf('day').toISOString(), span: 'date'};
+      vlogData[playerOptions.channelName] = {currentDate: moment().utc().startOf('day').toISOString(), span: 'day'};
     }
     return vlogData[playerOptions.channelName];
   }
