@@ -3,6 +3,8 @@ h3
   span {{ $ctrl.date | prettyDate }}
 ul
   li(ng-repeat='video in $ctrl.videos')
+    p
+      | {{ video.snippet.publishedAt | prettyDate }}
     img(src='{{ video.snippet.thumbnails.default.url }}', width='{{ video.snippet.thumbnails.default.width }}', height='{{ video.snippet.thumbnails.default.height }}', alt='thumbnail')
     a(href='#', ng-click='$ctrl.start(video)')
       span
