@@ -1,12 +1,22 @@
 'use strict';
 
 module.exports = [
-  '$rootScope', 'List', 'Vlog', 'Settings',
-  function VideoListController ($rootScope, List, Vlog, Settings) {
+  '$filter', '$rootScope', 'Vlog', 'Settings',
+  function VideoListController ($filter, $rootScope, Vlog, Settings) {
 
     var ctrl = this;
 
-    // TODO: show different titles depending on the type of time span this vlog is using
+    function updateView() {
+      var data = Settings.getVlogData();
+      ctrl.date = data.currentDate;
+      setHeading(data.span);
+    }
+
+    function setHeading(span) {
+      if (span === 'month') ctrl.heading = 'Videos released in ' + $filter('date')(ctrl.date, 'MMMM y');
+      else if (span === 'week') ctrl.heading = 'Videos released week ' + $filter('date')(ctrl.date, "w 'of' y");
+      else ctrl.heading = 'Videos released on ' + $filter('prettyDate')(ctrl.date);
+    }
 
     ctrl.start = function (video) {
       Vlog.load(video);
@@ -14,11 +24,11 @@ module.exports = [
 
     $rootScope.$on('list:loaded', function (event, data) {
       ctrl.videos = data.items;
-      ctrl.date = Settings.getVlogData().currentDate;
+      updateView();
     });
 
     $rootScope.$on('vlogData:changed', function (data) {
-      ctrl.date = Settings.getVlogData().currentDate;
+      updateView();
     });
   }
 ];

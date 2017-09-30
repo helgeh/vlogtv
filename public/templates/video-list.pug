@@ -1,6 +1,5 @@
 h3
-  | Videos released on 
-  span {{ $ctrl.date | prettyDate }}
+  | {{ $ctrl.heading }}
 ul
   li(ng-repeat='video in $ctrl.videos')
     p
