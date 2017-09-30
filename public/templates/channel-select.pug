@@ -1,7 +1,7 @@
 label
   //- we should eventually move away from using javascript prompt to query a new channel name. This next input is for then...
   //- input(type='text', ng-model='$ctrl.channelName') 
-  //- button(ng-click="$ctrl.channel($ctrl.channelName)") Set
-  select(ng-model="$ctrl.channelName", ng-change="$ctrl.onChannelChange()")
+  //- button(ng-click="$ctrl.setChannel($ctrl.channelName)") Set
+  select(ng-model="$ctrl.props.channelName", ng-change="$ctrl.onChannelChange()")
     option(ng-repeat="channel in $ctrl.channelList") {{ channel }}
     option(value="_edit_") type...

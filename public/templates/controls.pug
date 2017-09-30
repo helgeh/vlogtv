@@ -1,10 +1,19 @@
 div
   fieldset
     channel-select
+    label
+      input(type='radio', name='span', ng-model='$ctrl.vlogData.span', ng-change='$ctrl.spanChanged()', value='date')
+      | day
+    label
+      input(type='radio', name='span', ng-model='$ctrl.vlogData.span', ng-change='$ctrl.spanChanged()', value='week')
+      | week
+    label
+      input(type='radio', name='span', ng-model='$ctrl.vlogData.span', ng-change='$ctrl.spanChanged()', value='month')
+      | month
   fieldset
     label
-      input(type='checkbox', ng-model='$ctrl.autoPlay', ng-change='$ctrl.toggleAutoPlay()')
-      |     AutoPlay
+      input(type='checkbox', ng-model='$ctrl.props.autoPlay')
+      | AutoPlay
     label
       input(type='date', ng-model='$ctrl.date', ng-change='$ctrl.dateChanged()', ng-model-options="{timezone: 'UTC'}")
     button(ng-click='$ctrl.prev()') <

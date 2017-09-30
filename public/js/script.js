@@ -4,16 +4,14 @@ var angular = require('angular');
 
 angular.module('VlogTV', [])
   
-  .run(function (Settings) {
-    if (!Settings.get('vlogs')) { // first time setup
-      Settings.set('channelName', 'CaseyNeistat');
-      Settings.set('curDate', '2015-03-26T00:00:00.0000Z');
-    }
+  .run(function () {
   })
 
   .factory('Vlog', require('./vlog.factory'))
   .factory('List', require('./list.factory'))
   .factory('Player', require('./player.factory'))
+
+  .service('Settings', require('./settings.service'))
 
   .component('controls', {
     templateUrl: '/templates/controls.html',
@@ -31,4 +29,9 @@ angular.module('VlogTV', [])
 var utils = require('./utils');
 Object.keys(utils).forEach(function (key) {
   angular.module('VlogTV').factory(key, utils[key]);
+});
+
+var filters = require('./filters');
+Object.keys(filters).forEach(function (key) {
+  angular.module('VlogTV').filter(key, filters[key]);
 });

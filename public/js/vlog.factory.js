@@ -1,13 +1,9 @@
 'use strict';
 
-var moment = require('moment');
-
 module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function ($rootScope, Settings, List, Player, Tools) {
+  var settings = Settings.getPlayerOptions();
+  var data = Settings.getVlogData();
   var API = {
-    setChannel: function (name) {
-      Settings.set('channelName', name);
-      List.reload().then(API.load);
-    },
     load: function (param) {
       if (typeof param === 'string') {
         Player.load(param);
@@ -22,17 +18,10 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
         List.setCurrent(param);
       }
     },
-    setDate: function (date) {
-      var m = moment.utc(date);
-      if (m.isValid()) {
-        Settings.set('curDate', m.toISOString());
-        List.reload().then(API.load);
-      }
-    },
     next: function () {
       if (!List.hasMore()) {
-        Tools.bumpCurrentDate();
-        List.reload().then(API.load);
+        Tools.bumpCurrentDate(1);
+        // List.reload().then(API.load);
       }
       else {
         List.loadNext().then(API.load);
@@ -42,7 +31,7 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
     prev: function () {
       if (List.isFirst()) {
         Tools.bumpCurrentDate(-1);
-        List.reload().then(API.load);
+        // List.reload().then(API.load);
       }
       else {
         List.loadPrev().then(API.load);
@@ -51,10 +40,17 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
     }
   };
   $rootScope.$on('player:stopped', function () {
-    if (Settings.get('autoPlay')) {
+    if (settings.autoPlay) {
       API.next();
       Player.play();
     }
+  });
+  $rootScope.$on('list:loaded', function (event, data) {
+    if (data.items && data.items.length > 0)
+      API.load(data.items[0]);
+  });
+  $rootScope.$on('channel:changed', function (channelName) {
+    settings = Settings.getPlayerOptions();
   });
   return API;
 }];

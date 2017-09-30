@@ -111,7 +111,7 @@ gulp.task('js', ['js-clean'], function () {
     .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
         .pipe(ngAnnotate())
-        .pipe(uglify())
+        .pipe(uglify()) // TODO: only use this when building for production
         .on('error', gutil.log)
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./dist/public/js/'));

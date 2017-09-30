@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = ['$rootScope', 'Settings', function ($rootScope, Settings) {
+module.exports = ['$rootScope', function ($rootScope) {
   var player, loadWhenReady, playWhenReady, isPlaying;
 
   var tag = document.createElement('script');
