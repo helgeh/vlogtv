@@ -62,12 +62,17 @@ module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http
       return promise;
     }
   }
-  //API.reload(); // <-- får ikke bestemt seg om denne trengs eller ikke... Problemet er at vi får dobbel load når appen loader fordi vlogdata endrer seg av en eller annen grunn
+
+  API.reload(); // <-- Appen får fader ikke bestemt seg om denne trengs eller ikke... 
+  // Problemet er at vi får dobbel load når appen loader fordi vlogdata endrer seg av en eller annen grunn.
+  // Men tydeligvis ikke alltid! :(
+
   $rootScope.$on('vlogData:changed', function (data) {
     API.reload();
   });
   $rootScope.$on('channel:changed', function (data) {
     API.reload();
   });
+
   return API;
 }];

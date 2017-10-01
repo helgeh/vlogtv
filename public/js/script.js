@@ -1,10 +1,26 @@
 'use strict';
 
 var angular = require('angular');
+var moment = require('moment');
 
 angular.module('VlogTV', [])
   
-  .run(function () {
+  .config(function($locationProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('!');
+  })
+
+  .run(function ($location, Settings) {
+    var query = $location.search();
+    if (query) {
+      if (query.vlog && query.date) {
+        var opts = Settings.getPlayerOptions();
+        opts.channelName = query.vlog;
+        var data = Settings.getVlogData();
+        data.currentDate =  moment.utc(query.date).toISOString();
+        data.span = query.span || 'week';
+        $location.search({});
+      }
+    }
   })
 
   .factory('Vlog', require('./vlog.factory'))
