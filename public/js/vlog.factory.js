@@ -22,19 +22,19 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
       if (!List.hasMore()) {
         Tools.bumpCurrentDate(1);
       }
-      else {
+      // else {
         List.loadNext().then(API.load);
-      }
-      $rootScope.$broadcast('step', 'next');
+      // }
+      // $rootScope.$broadcast('step', 'next');
     },
     prev: function () {
       if (List.isFirst()) {
         Tools.bumpCurrentDate(-1);
       }
-      else {
+      // else {
         List.loadPrev().then(API.load);
-      }
-      $rootScope.$broadcast('step', 'prev');
+      // }
+      // $rootScope.$broadcast('step', 'prev');
     }
   };
   $rootScope.$on('player:stopped', function () {
@@ -44,6 +44,8 @@ module.exports = ['$rootScope', 'Settings', 'List', 'Player', 'Tools', function 
     }
   });
   $rootScope.$on('list:loaded', function (event, data) {
+    if (Player.isPlaying())
+      return;
     if (data.items && data.items.length > 0)
       API.load(data.items[0]);
   });
