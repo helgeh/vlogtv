@@ -36,16 +36,14 @@ module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http
 
     // TODO rewrite this to take needed parameters. That way this could be called upon and not just blindly recall itself when rootscope emits events...
     reload: function () {
-      var props = Settings.getPlayerOptions();
-      var data = Settings.getVlogData();
+      var props, data, url;
+      props = Settings.getPlayerOptions();
+      data = Settings.getVlogData();
       if (!props.channelName || !data.span || !data.currentDate) {
         console.warn('Missing request data!');
         return;
       }
-      var channel = props.channelName;
-      var span = data.span;
-      var date = data.currentDate;
-      var url = '/vlog/' + channel + '?date=' + date + '&span=' + span;
+      url = '/vlog/' + props.channelName + '?date=' + data.currentDate + '&span=' + data.span;
       promise = $http.get(url).then(function (res) {
         res.data.items = res.data.items
           .filter(function(item) {
