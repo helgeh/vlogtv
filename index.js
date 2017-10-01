@@ -21,7 +21,6 @@ app.use(cors({
 }))
 
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.static('node_modules'));
 
 app.get('/vlog/:channel', (req, res) => {
   let channel = req.params.channel || 'CaseyNeistat';

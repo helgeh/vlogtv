@@ -52,7 +52,7 @@ module.exports = ['$rootScope', '$http', 'Settings', function ($rootScope, $http
             return item.id.kind === 'youtube#video';
           })
           .sort(function (a, b) {
-            return a.snippet.publishedAt > b.snippet.publishedAt;
+            return a.snippet.publishedAt > b.snippet.publishedAt; // TODO: compare better: https://trello.com/c/5ZuN2e9S 
           });
         curIndex = 0;
         total = res.data.items.length;
